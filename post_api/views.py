@@ -24,17 +24,12 @@ class OperationEnum(Enum):
     times = operator.mul
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 def arithmetic_post_view(request, *args, **kwargs):
     """Parse the json content of the request's post and return
     the result of the arithmetic operation in a specified format
     """
-    if request.method == "GET":
-        all_objects = ArithmeticQueryModel.objects.all()
-        serializer = ArithmeticSerializer(all_objects, many=True)
-        return Response(serializer.data)
-
-    elif request.method == "POST":
+    if request.method == "POST":
         serializer = ArithmeticSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
