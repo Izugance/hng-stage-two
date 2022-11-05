@@ -3,7 +3,6 @@ from enum import Enum
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from .serializers import ArithmeticSerializer
@@ -49,5 +48,5 @@ def arithmetic_post_view(request, *args, **kwargs):
                     "operation_type": operation_type,
                     "result": result,
                 }
-                return Response(response_data, status=HTTP_201_CREATED)
+                return Response(response_data)
         return Response(status=HTTP_400_BAD_REQUEST)
