@@ -34,11 +34,10 @@ def arithmetic_post_view(request, *args, **kwargs):
     the result of the arithmetic operation in a specified format
     """
     if request.method == "POST":
-
         serializer = ArithmeticSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            received_data = serializer.data
+            received_data = serializer.validated_data
             operation_type = received_data["operation_type"].lower().strip()
             x = received_data["x"]
             y = received_data["y"]
