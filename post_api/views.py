@@ -3,6 +3,8 @@ from enum import Enum
 
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .serializers import ArithmeticSerializer
@@ -26,12 +28,13 @@ class OperationEnum(Enum):
 
 
 @api_view(["POST"])
+@permission_classes([AllowAny])
 def arithmetic_post_view(request, *args, **kwargs):
     """Parse the json content of the request's post and return
     the result of the arithmetic operation in a specified format
     """
     if request.method == "POST":
-        return request.body
+
         serializer = ArithmeticSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -42,7 +45,7 @@ def arithmetic_post_view(request, *args, **kwargs):
             try:
                 input_operator = OperationEnum[operation_type].value
             except Exception:
-                return Response("Unknown operation")
+                return Response({"error": "Unknown operation"})
             else:
                 result = input_operator(x, y)
                 response_data = {
